@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>个人中心</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <!-- Tailwind 配置 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#6366f1',
+            secondary: '#a855f7',
+            accent: '#ec4899',
+            neutral: '#f3f4f6',
+            dark: '#1f2937'
+          },
+          fontFamily: {
+            inter: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .glass-effect {
+        backdrop-filter: blur(12px);
+        background-color: rgba(255, 255, 255, 0.7);
+      }
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+      .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+      }
+      .progress-ring-circle {
+        transition: stroke-dashoffset 0.35s;
+        transform: rotate(-90deg);
+        transform-origin: 50% 50%;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 font-inter text-dark">
+  <!-- 顶部导航栏 -->
+  <header class="fixed top-0 left-0 right-0 z-50 glass-effect border-b border-gray-200/50">
+    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <i class="fa fa-graduation-cap text-primary text-2xl"></i>
+        <span class="font-bold text-xl text-primary">乐面Java学习平台</span>
+      </div>
+      
+      <nav class="hidden md:flex items-center space-x-8">
+        <a href="#" class="text-gray-700 hover:text-primary transition-colors">首页</a>
+        <a href="#" class="text-gray-700 hover:text-primary transition-colors">课程</a>
+        <a href="#" class="text-gray-700 hover:text-primary transition-colors">社区</a>
+        <a href="#" class="text-primary font-medium">个人中心</a>
+      </nav>
+      
+      <div class="flex items-center space-x-4">
+        <button class="hidden md:flex items-center justify-center h-10 w-10 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors">
+          <i class="fa fa-bell-o text-gray-600"></i>
+        </button>
+        <button class="md:hidden flex items-center justify-center h-10 w-10 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors">
+          <i class="fa fa-bars text-gray-600"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主内容区 -->
+  <main class="container mx-auto px-4 pt-24 pb-16">
+    <!-- 用户信息卡片 -->
+    <section class="mb-8">
+      <div class="bg-gradient-to-r from-primary to-secondary rounded-2xl shadow-lg overflow-hidden">
+        <div class="p-6 md:p-8 flex flex-col md:flex-row items-center">
+          <div class="mb-6 md:mb-0 md:mr-8 flex flex-col items-center">
+            <div class="relative">
+              <div class="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-white shadow-lg">
+                <img src="https://picsum.photos/200/200?random=1" alt="用户头像" class="w-full h-full object-cover">
+              </div>
+              <div class="absolute bottom-0 right-0 bg-green-500 text-white rounded-full p-1 border-2 border-white">
+                <i class="fa fa-check text-xs"></i>
+              </div>
+            </div>
+            <button class="mt-3 text-sm bg-white/20 hover:bg-white/30 text-white px-4 py-1.5 rounded-full transition-colors flex items-center">
+              <i class="fa fa-camera mr-1.5"></i> 更换头像
+            </button>
+          </div>
+          
+          <div class="text-white flex-1 text-center md:text-left">
+            <div class="flex flex-col md:flex-row md:items-center justify-center md:justify-start">
+              <h1 class="text-2xl md:text-3xl font-bold mb-2">张小明</h1>
+              <div class="ml-0 md:ml-4 flex items-center">
+                <span class="bg-white/20 text-white text-xs px-2 py-0.5 rounded-full">
+                  初级学者
+                </span>
+              </div>
+            </div>
+            <p class="text-white/80 mb-4">Java学习爱好者 · 正在学习数据结构与算法</p>
+            
+            <div class="flex flex-wrap justify-center md:justify-start gap-3 mb-4">
+              <div class="flex items-center bg-white/10 hover:bg-white/20 transition-colors rounded-lg px-3 py-2">
+                <i class="fa fa-calendar-check-o mr-2"></i>
+                <span>学习天数: 32天</span>
+              </div>
+              <div class="flex items-center bg-white/10 hover:bg-white/20 transition-colors rounded-lg px-3 py-2">
+                <i class="fa fa-book mr-2"></i>
+                <span>已完成课程: 5门</span>
+              </div>
+              <div class="flex items-center bg-white/10 hover:bg-white/20 transition-colors rounded-lg px-3 py-2">
+                <i class="fa fa-trophy mr-2"></i>
+                <span>获得成就: 12个</span>
+              </div>
+            </div>
+            
+            <div class="flex flex-wrap justify-center md:justify-start gap-3">
+              <button class="bg-white text-primary hover:bg-gray-100 transition-colors px-6 py-2 rounded-lg font-medium flex items-center">
+                <i class="fa fa-user-circle-o mr-2"></i> 编辑资料
+              </button>
+              <button class="bg-white/20 text-white hover:bg-white/30 transition-colors px-6 py-2 rounded-lg font-medium flex items-center">
+                <i class="fa fa-cog mr-2"></i> 账号设置
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- 学习进度和快捷操作 -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+      <!-- 学习进度 -->
+      <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm p-6 card-hover">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-xl font-bold">学习进度</h2>
+          <a href="#" class="text-primary hover:underline text-sm">查看全部</a>
+        </div>
+        
+        <div class="space-y-6">
+          <!-- 进度项 1 -->
+          <div class="flex flex-col md:flex-row md:items-center p-4 bg-gray-50 rounded-xl">
+            <div class="flex-shrink-0 mb-4 md:mb-0 md:mr-6">
+              <svg class="w-20 h-20" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" fill="none" stroke="#e5e7eb" stroke-width="8"/>
+                <circle class="progress-ring-circle" cx="50" cy="50" r="45" fill="none" stroke="#6366f1" stroke-width="8" stroke-dasharray="283" stroke-dashoffset="70"/>
+                <text x="50" y="50" text-anchor="middle" dominant-baseline="middle" font-size="16" font-weight="bold">75%</text>
+              </svg>
+            </div>
+            
+            <div class="flex-1">
+              <div class="flex justify-between items-start mb-2">
+                <h3 class="font-semibold">数据结构与算法</h3>
+                <span class="text-sm text-gray-500">进行中</span>
+              </div>
+              <p class="text-gray-600 text-sm mb-3">掌握常用数据结构和算法，提升编程思维</p>
+              <div class="flex justify-between items-center">
+                <div class="w-full bg-gray-200 rounded-full h-2.5 mr-4">
+                  <div class="bg-primary h-2.5 rounded-full" style="width: 75%"></div>
+                </div>
+                <span class="text-sm font-medium">75%</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 进度项 2 -->
+          <div class="flex flex-col md:flex-row md:items-center p-4 bg-gray-50 rounded-xl">
+            <div class="flex-shrink-0 mb-4 md:mb-0 md:mr-6">
+              <svg class="w-20 h-20" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" fill="none" stroke="#e5e7eb" stroke-width="8"/>
+                <circle class="progress-ring-circle" cx="50" cy="50" r="45" fill="none" stroke="#a855f7" stroke-width="8" stroke-dasharray="283" stroke-dashoffset="141.5"/>
+                <text x="50" y="50" text-anchor="middle" dominant-baseline="middle" font-size="16" font-weight="bold">50%</text>
+              </svg>
+            </div>
+            
+            <div class="flex-1">
+              <div class="flex justify-between items-start mb-2">
+                <h3 class="font-semibold">Spring框架入门</h3>
+                <span class="text-sm text-gray-500">进行中</span>
+              </div>
+              <p class="text-gray-600 text-sm mb-3">学习Spring核心概念和IoC、AOP原理</p>
+              <div class="flex justify-between items-center">
+                <div class="w-full bg-gray-200 rounded-full h-2.5 mr-4">
+                  <div class="bg-secondary h-2.5 rounded-full" style="width: 50%"></div>
+                </div>
+                <span class="text-sm font-medium">50%</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 进度项 3 -->
+          <div class="flex flex-col md:flex-row md:items-center p-4 bg-gray-50 rounded-xl">
+            <div class="flex-shrink-0 mb-4 md:mb-0 md:mr-6">
+              <svg class="w-20 h-20" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" fill="none" stroke="#e5e7eb" stroke-width="8"/>
+                <circle class="progress-ring-circle" cx="50" cy="50" r="45" fill="none" stroke="#ec4899" stroke-width="8" stroke-dasharray="283" stroke-dashoffset="254.7"/>
+                <text x="50" y="50" text-anchor="middle" dominant-baseline="middle" font-size="16" font-weight="bold">10%</text>
+              </svg>
+            </div>
+            
+            <div class="flex-1">
+              <div class="flex justify-between items-start mb-2">
+                <h3 class="font-semibold">数据库设计与开发</h3>
+                <span class="text-sm text-gray-500">进行中</span>
+              </div>
+              <p class="text-gray-600 text-sm mb-3">学习SQL语句和数据库设计原则</p>
+              <div class="flex justify-between items-center">
+                <div class="w-full bg-gray-200 rounded-full h-2.5 mr-4">
+                  <div class="bg-accent h-2.5 rounded-full" style="width: 10%"></div>
+                </div>
+                <span class="text-sm font-medium">10%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 快捷操作 -->
+      <div class="bg-white rounded-2xl shadow-sm p-6 card-hover">
+        <h2 class="text-xl font-bold mb-6">快捷操作</h2>
+        
+        <div class="grid grid-cols-2 gap-4">
+          <a href="#" class="flex flex-col items-center justify-center p-4 border border-gray-100 rounded-xl hover:bg-gray-50 transition-colors">
+            <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-2">
+              <i class="fa fa-book text-primary text-xl"></i>
+            </div>
+            <span class="text-sm font-medium">我的课程</span>
+          </a>
+          
+          <a href="#" class="flex flex-col items-center justify-center p-4 border border-gray-100 rounded-xl hover:bg-gray-50 transition-colors">
+            <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-2">
+              <i class="fa fa-calendar text-secondary text-xl"></i>
+            </div>
+            <span class="text-sm font-medium">学习计划</span>
+          </a>
+          
+          <a href="#" class="flex flex-col items-center justify-center p-4 border border-gray-100 rounded-xl hover:bg-gray-50 transition-colors">
+            <div class="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center mb-2">
+              <i class="fa fa-trophy text-accent text-xl"></i>
+            </div>
+            <span class="text-sm font-medium">我的成就</span>
+          </a>
+          
+          <a href="#" class="flex flex-col items-center justify-center p-4 border border-gray-100 rounded-xl hover:bg-gray-50 transition-colors">
+            <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-2">
+              <i class="fa fa-comments-o text-green-600 text-xl"></i>
+            </div>
+            <span class="text-sm font-medium">社区讨论</span>
+          </a>
+          
+          <a href="#" class="flex flex-col items-center justify-center p-4 border border-gray-100 rounded-xl hover:bg-gray-50 transition-colors">
+            <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center mb-2">
+              <i class="fa fa-certificate text-yellow-600 text-xl"></i>
+            </div>
+            <span class="text-sm font-medium">我的证书</span>
+          </a>
+          
+          <a href="#" class="flex flex-col items-center justify-center p-4 border border-gray-100 rounded-xl hover:bg-gray-50 transition-colors">
+            <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mb-2">
+              <i class="fa fa-star-o text-red-500 text-xl"></i>
+            </div>
+            <span class="text-sm font-medium">收藏内容</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 最近学习记录和成就 -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- 最近学习记录 -->
+      <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm p-6 card-hover">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-xl font-bold">最近学习记录</h2>
+          <a href="#" class="text-primary hover:underline text-sm">查看历史</a>
+        </div>
+        
+        <div class="space-y-4">
+          <div class="flex items-center p-3 border-b border-gray-100">
+            <div class="w-12 h-12 rounded-lg overflow-hidden mr-4">
+              <img src="https://picsum.photos/200/200?random=2" alt="数据结构课程封面" class="w-full h-full object-cover">
+            </div>
+            <div class="flex-1">
+              <h3 class="font-medium">栈和队列的应用</h3>
+              <p class="text-gray-500 text-sm">数据结构与算法 · 今天 19:30</p>
+            </div>
+            <div class="text-gray-500 text-sm">
+              <span class="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded-full">学习中</span>
+            </div>
+          </div>
+          
+          <div class="flex items-center p-3 border-b border-gray-100">
+            <div class="w-12 h-12 rounded-lg overflow-hidden mr-4">
+              <img src="https://picsum.photos/200/200?random=3" alt="Spring课程封面" class="w-full h-full object-cover">
+            </div>
+            <div class="flex-1">
+              <h3 class="font-medium">IoC容器原理</h3>
+              <p class="text-gray-500 text-sm">Spring框架入门 · 昨天 21:15</p>
+            </div>
+            <div class="text-gray-500 text-sm">
+              <span class="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full">已完成</span>
+            </div>
+          </div>
+          
+          <div class="flex items-center p-3 border-b border-gray-100">
+            <div class="w-12 h-12 rounded-lg overflow-hidden mr-4">
+              <img src="https://picsum.photos/200/200?random=4" alt="Java基础课程封面" class="w-full h-full object-cover">
+            </div>
+            <div class="flex-1">
+              <h3 class="font-medium">多线程编程</h3>
+              <p class="text-gray-500 text-sm">Java高级特性 · 3天前</p>
+            </div>
+            <div class="text-gray-500 text-sm">
+              <span class="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full">已完成</span>
+            </div>
+          </div>
+          
+          <div class="flex items-center p-3 border-b border-gray-100">
+            <div class="w-12 h-12 rounded-lg overflow-hidden mr-4">
+              <img src="https://picsum.photos/200/200?random=5" alt="数据库课程封面" class="w-full h-full object-cover">
+            </div>
+            <div class="flex-1">
+              <h3 class="font-medium">SQL查询优化</h3>
+              <p class="text-gray-500 text-sm">数据库设计与开发 · 5天前</p>
+            </div>
+            <div class="text-gray-500 text-sm">
+              <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">已暂停</span>
+            </div>
+          </div>
+          
+          <div class="flex items-center p-3">
+            <div class="w-12 h-12 rounded-lg overflow-hidden mr-4">
+              <img src="https://picsum.photos/200/200?random=6" alt="Java基础课程封面" class="w-full h-full object-cover">
+            </div>
+            <div class="flex-1">
+              <h3 class="font-medium">面向对象设计原则</h3>
+              <p class="text-gray-500 text-sm">Java高级特性 · 1周前</p>
+            </div>
+            <div class="text-gray-500 text-sm">
+              <span class="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full">已完成</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 我的成就 -->
+      <div class="bg-white rounded-2xl shadow-sm p-6 card-hover">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-xl font-bold">我的成就</h2>
+          <div class="flex items-center">
+            <span class="text-sm text-gray-500 mr-2">12/24</span>
+            <div class="w-16 bg-gray-200 rounded-full h-2">
+              <div class="bg-primary h-2 rounded-full" style="width: 50%"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="space-y-4">
+          <div class="flex items-center p-3 border border-gray-100 rounded-lg">
+            <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center mr-4">
+              <i class="fa fa-rocket text-yellow-500 text-xl"></i>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-medium">学习新星</h3>
+              <p class="text-gray-500 text-xs">连续学习7天</p>
+            </div>
+            <div class="text-yellow-500">
+              <i class="fa fa-star"></i>
+            </div>
+          </div>
+          
+          <div class="flex items-center p-3 border border-gray-100 rounded-lg">
+            <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mr-4">
+              <i class="fa fa-graduation-cap text-green-500 text-xl"></i>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-medium">初级程序员</h3>
+              <p class="text-gray-500 text-xs">完成5门课程</p>
+            </div>
+            <div class="text-green-500">
+              <i class="fa fa-star"></i>
+            </div>
+          </div>
+          
+          <div class="flex items-center p-3 border border-gray-100 rounded-lg">
+            <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+              <i class="fa fa-code text-blue-500 text-xl"></i>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-medium">代码大师</h3>
+              <p class="text-gray-500 text-xs">累计编写10000行代码</p>
+            </div>
+            <div class="text-blue-500">
+              <i class="fa fa-star"></i>
+            </div>
+          </div>
+          
+          <div class="flex items-center p-3 border border-gray-100 rounded-lg">
+            <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mr-4">
+              <i class="fa fa-users text-purple-500 text-xl"></i>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-medium">社区活跃者</h3>
+              <p class="text-gray-500 text-xs">发表10篇帖子</p>
+            </div>
+            <div class="text-gray-400">
+              <i class="fa fa-star-o"></i>
+            </div>
+          </div>
+          
+          <div class="flex items-center p-3 border border-gray-100 rounded-lg">
+            <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mr-4">
+              <i class="fa fa-trophy text-red-500 text-xl"></i>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-medium">算法天才</h3>
+              <p class="text-gray-500 text-xs">解决50道算法题</p>
+            </div>
+            <div class="text-gray-400">
+              <i class="fa fa-star-o"></i>
+            </div>
+          </div>
+        </div>
+        
+        <button class="w-full mt-4 py-2.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+          查看全部成就
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="bg-dark text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center space-x-2 mb-4">
+            <i class="fa fa-graduation-cap text-primary text-2xl"></i>
+            <span class="font-bold text-xl">乐面Java学习平台</span>
+          </div>
+          <p class="text-gray-400 text-sm">专注于提供高质量的Java学习资源和交流社区，帮助开发者从入门到精通。</p>
+        </div>
+        
+        <div>
+          <h3 class="font-semibold text-lg mb-4">学习资源</h3>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="#" class="hover:text-primary transition-colors">Java基础</a></li>
+            <li><a href="#" class="hover:text-primary transition-colors">Spring框架</a></li>
+            <li><a href="#" class="hover:text-primary transition-colors">微服务架构</a></li>
+            <li><a href="#" class="hover:text-primary transition-colors">数据库设计</a></li>
+            <li><a href="#" class="hover:text-primary transition-colors">面试指南</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="font-semibold text-lg mb-4">关于我们</h3>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="#" class="hover:text-primary transition-colors">平台介绍</a></li>
+            <li><a href="#" class="hover:text-primary transition-colors">讲师团队</a></li>
+            <li><a href="#" class="hover:text-primary transition-colors">合作伙伴</a></li>
+            <li><a href="#" class="hover:text-primary transition-colors">加入我们</a></li>
+            <li><a href="#" class="hover:text-primary transition-colors">联系方式</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="font-semibold text-lg mb-4">关注我们</h3>
+          <div class="flex space-x-4 mb-4">
+            <a href="#" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition-colors">
+              <i class="fa fa-weixin"></i>
+            </a>
+            <a href="#" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition-colors">
+              <i class="fa fa-weibo"></i>
+            </a>
+            <a href="#" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition-colors">
+              <i class="fa fa-github"></i>
+            </a>
+            <a href="#" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition-colors">
+              <i class="fa fa-qq"></i>
+            </a>
+          </div>
+          <p class="text-gray-400 text-sm">订阅我们的学习周刊，获取最新学习资料和活动信息</p>
+          <div class="mt-3 flex">
+            <input type="email" placeholder="输入您的邮箱" class="bg-gray-700 text-white px-4 py-2 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary w-full">
+            <button class="bg-primary hover:bg-primary/90 transition-colors px-4 py-2 rounded-r-lg">
+              订阅
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400 text-sm">
+        <p>© 2025 乐面Java学习平台 版权所有 | 京ICP备12345678号</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // 进度环动画
+    document.addEventListener('DOMContentLoaded', function() {
+      const circles = document.querySelectorAll('.progress-ring-circle');
+      circles.forEach(circle => {
+        const radius = circle.r.baseVal.value;
+        const circumference = radius * 2 * Math.PI;
+        
+        circle.style.strokeDasharray = `${circumference} ${circumference}`;
+        circle.style.strokeDashoffset = circumference;
+        
+        function setProgress(percent) {
+          const offset = circumference - percent / 100 * circumference;
+          circle.style.strokeDashoffset = offset;
+        }
+        
+        // 模拟加载动画
+        setTimeout(() => {
+          const percent = parseInt(circle.nextElementSibling.textContent);
+          setProgress(percent);
+        }, 300);
+      });
+    });
+  </script>
+</body>
+</html>
