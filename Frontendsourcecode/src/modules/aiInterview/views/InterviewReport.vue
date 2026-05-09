@@ -1,0 +1,544 @@
+<template>
+	<div class="relative">
+		<!-- 导出按钮，绝对定位在右上角，不参与导出 -->
+		<button
+			class="absolute top-4 right-4 z-10 px-4 py-2 rounded bg-blue-500 hover:bg-blue-600 text-white"
+			@click="exportPDF"
+		>
+			导出为PDF
+		</button>
+		<!-- 需要导出的内容加ref -->
+		<div ref="reportContent">
+			<!-- 下面是原有的报告内容 -->
+			<div class="max-w-6xl mx-auto px-4 py-8 md:py-12">
+				<!-- 报告头部 -->
+				<header class="mb-10 animate-fade-in">
+					<div
+						class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6"
+					>
+						<div>
+							<h1 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-dark mb-2">
+								面试评估报告
+							</h1>
+							<p class="text-neutral">专业、客观的面试能力评估</p>
+						</div>
+						<div class="mt-4 md:mt-0 bg-primary/10 px-4 py-2 rounded-lg">
+							<p class="text-primary font-medium">
+								<i class="fa fa-calendar-o mr-2"></i>评估日期: 2025年7月18日
+							</p>
+						</div>
+					</div>
+					<!-- 基本信息卡片 -->
+					<div
+						class="bg-white rounded-xl shadow-md p-6 grid grid-cols-1 md:grid-cols-3 gap-6 animate-slide-up"
+						style="animation-delay: 0.1s"
+					>
+						<div>
+							<h3 class="text-sm uppercase text-neutral font-semibold mb-2">
+								面试者信息
+							</h3>
+							<p class="font-medium">张明</p>
+							<p class="text-neutral text-sm">应聘岗位: 前端开发工程师</p>
+							<p class="text-neutral text-sm">应聘部门: 技术部</p>
+						</div>
+						<div>
+							<h3 class="text-sm uppercase text-neutral font-semibold mb-2">
+								面试官信息
+							</h3>
+							<p class="font-medium">李技术</p>
+							<p class="text-neutral text-sm">职位: 技术总监</p>
+							<p class="text-neutral text-sm">面试方式: 现场面试</p>
+						</div>
+						<div>
+							<h3 class="text-sm uppercase text-neutral font-semibold mb-2">
+								面试概况
+							</h3>
+							<p class="font-medium">
+								<span
+									class="inline-block px-3 py-1 bg-blue-100 text-primary text-sm rounded-full"
+								>
+									初试
+								</span>
+							</p>
+							<p class="text-neutral text-sm">面试时长: 45分钟</p>
+							<p class="text-neutral text-sm">评估完成: 是</p>
+						</div>
+					</div>
+				</header>
+				<!-- 总体评分 -->
+				<section class="mb-12 animate-slide-up" style="animation-delay: 0.2s">
+					<div class="bg-white rounded-xl shadow-md p-6">
+						<h2 class="text-xl font-bold mb-6 flex items-center">
+							<i class="fa fa-star text-warning mr-2"></i>总体评估
+						</h2>
+						<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+							<div class="flex flex-col items-center justify-center">
+								<div class="relative w-48 h-48 mb-4">
+									<!-- 评分圆环 -->
+									<canvas
+										ref="overallScoreChart"
+										width="192"
+										height="192"
+									></canvas>
+									<div
+										class="absolute inset-0 flex items-center justify-center flex-col"
+									>
+										<span class="text-4xl font-bold text-primary">82</span>
+										<span class="text-neutral text-sm">优秀</span>
+									</div>
+								</div>
+								<div class="text-center">
+									<h3 class="font-semibold text-lg mb-1">推荐等级</h3>
+									<div
+										class="inline-flex items-center px-4 py-2 bg-green-100 text-success rounded-full"
+									>
+										<i class="fa fa-check-circle mr-2"></i>
+										<span>强烈推荐</span>
+									</div>
+								</div>
+							</div>
+							<div>
+								<h3 class="font-semibold text-lg mb-3">综合评价</h3>
+								<p class="text-gray-700 leading-relaxed">
+									张明同学在面试中表现出色，专业基础扎实，尤其在前端框架应用和响应式设计方面有深入理解。沟通表达清晰，能够准确理解问题并给出合理解决方案。项目经验与岗位需求匹配度高，展现了良好的团队协作能力和学习能力。总体而言，是一位非常适合该岗位的候选人。
+								</p>
+							</div>
+						</div>
+					</div>
+				</section>
+				<!-- 能力分析 -->
+				<section class="mb-12 animate-slide-up" style="animation-delay: 0.3s">
+					<div class="bg-white rounded-xl shadow-md p-6">
+						<h2 class="text-xl font-bold mb-6 flex items-center">
+							<i class="fa fa-bar-chart text-accent mr-2"></i>能力维度分析
+						</h2>
+						<!-- 能力雷达图 -->
+						<div
+							class="h-80 mb-8 no-break-inside"
+							style="page-break-inside: avoid; break-inside: avoid"
+						>
+							<canvas ref="skillsRadarChart" width="400" height="320"></canvas>
+						</div>
+						<!-- 能力详情 -->
+						<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+							<!-- 能力项1 -->
+							<div
+								class="border border-gray-100 rounded-lg p-4 hover:border-primary transition-colors duration-300"
+							>
+								<div class="flex justify-between items-center mb-2">
+									<h3 class="font-semibold">专业技能</h3>
+									<span class="text-primary font-bold">85</span>
+								</div>
+								<div class="w-full bg-gray-200 rounded-full h-2 mb-3">
+									<div
+										class="bg-primary h-2 rounded-full"
+										style="width: 85%"
+									></div>
+								</div>
+								<p class="text-sm text-neutral">
+									精通HTML5/CSS3/JavaScript，熟悉React框架及生态系统
+								</p>
+							</div>
+							<!-- 能力项2 -->
+							<div
+								class="border border-gray-100 rounded-lg p-4 hover:border-primary transition-colors duration-300"
+							>
+								<div class="flex justify-between items-center mb-2">
+									<h3 class="font-semibold">项目经验</h3>
+									<span class="text-primary font-bold">88</span>
+								</div>
+								<div class="w-full bg-gray-200 rounded-full h-2 mb-3">
+									<div
+										class="bg-primary h-2 rounded-full"
+										style="width: 88%"
+									></div>
+								</div>
+								<p class="text-sm text-neutral">
+									有多个大型商业项目经验，能够独立负责前端架构设计
+								</p>
+							</div>
+							<!-- 能力项3 -->
+							<div
+								class="border border-gray-100 rounded-lg p-4 hover:border-primary transition-colors duration-300"
+							>
+								<div class="flex justify-between items-center mb-2">
+									<h3 class="font-semibold">沟通能力</h3>
+									<span class="text-primary font-bold">79</span>
+								</div>
+								<div class="w-full bg-gray-200 rounded-full h-2 mb-3">
+									<div
+										class="bg-primary h-2 rounded-full"
+										style="width: 79%"
+									></div>
+								</div>
+								<p class="text-sm text-neutral">
+									表达清晰，能够准确传达技术概念，团队协作意识良好
+								</p>
+							</div>
+							<!-- 能力项4 -->
+							<div
+								class="border border-gray-100 rounded-lg p-4 hover:border-primary transition-colors duration-300"
+							>
+								<div class="flex justify-between items-center mb-2">
+									<h3 class="font-semibold">问题解决</h3>
+									<span class="text-primary font-bold">84</span>
+								</div>
+								<div class="w-full bg-gray-200 rounded-full h-2 mb-3">
+									<div
+										class="bg-primary h-2 rounded-full"
+										style="width: 84%"
+									></div>
+								</div>
+								<p class="text-sm text-neutral">
+									面对复杂问题能够快速分析并提出有效解决方案
+								</p>
+							</div>
+							<!-- 能力项5 -->
+							<div
+								class="border border-gray-100 rounded-lg p-4 hover:border-primary transition-colors duration-300"
+							>
+								<div class="flex justify-between items-center mb-2">
+									<h3 class="font-semibold">学习能力</h3>
+									<span class="text-primary font-bold">81</span>
+								</div>
+								<div class="w-full bg-gray-200 rounded-full h-2 mb-3">
+									<div
+										class="bg-primary h-2 rounded-full"
+										style="width: 81%"
+									></div>
+								</div>
+								<p class="text-sm text-neutral">
+									关注行业新技术，能够快速掌握新工具和框架的使用
+								</p>
+							</div>
+							<!-- 能力项6 -->
+							<div
+								class="border border-gray-100 rounded-lg p-4 hover:border-primary transition-colors duration-300"
+							>
+								<div class="flex justify-between items-center mb-2">
+									<h3 class="font-semibold">职业素养</h3>
+									<span class="text-primary font-bold">83</span>
+								</div>
+								<div class="w-full bg-gray-200 rounded-full h-2 mb-3">
+									<div
+										class="bg-primary h-2 rounded-full"
+										style="width: 83%"
+									></div>
+								</div>
+								<p class="text-sm text-neutral">
+									展现出良好的职业态度和责任感，对工作有清晰规划
+								</p>
+							</div>
+						</div>
+					</div>
+				</section>
+				<!-- 优势与建议 -->
+				<section
+					class="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6 animate-slide-up"
+					style="animation-delay: 0.4s"
+				>
+					<!-- 优势 -->
+					<div class="bg-white rounded-xl shadow-md p-6">
+						<h2 class="text-xl font-bold mb-4 flex items-center text-success">
+							<i class="fa fa-plus-circle mr-2"></i>主要优势
+						</h2>
+						<ul class="space-y-3">
+							<li class="flex">
+								<i class="fa fa-check-circle text-success mt-1 mr-3"></i>
+								<span>扎实的前端基础知识和丰富的实战经验</span>
+							</li>
+							<li class="flex">
+								<i class="fa fa-check-circle text-success mt-1 mr-3"></i>
+								<span>对React生态系统有深入理解和应用经验</span>
+							</li>
+							<li class="flex">
+								<i class="fa fa-check-circle text-success mt-1 mr-3"></i>
+								<span>良好的代码规范和性能优化意识</span>
+							</li>
+							<li class="flex">
+								<i class="fa fa-check-circle text-success mt-1 mr-3"></i>
+								<span>清晰的逻辑思维和问题分析能力</span>
+							</li>
+							<li class="flex">
+								<i class="fa fa-check-circle text-success mt-1 mr-3"></i>
+								<span>积极的学习态度和团队协作精神</span>
+							</li>
+						</ul>
+					</div>
+					<!-- 建议 -->
+					<div class="bg-white rounded-xl shadow-md p-6">
+						<h2 class="text-xl font-bold mb-4 flex items-center text-warning">
+							<i class="fa fa-lightbulb-o mr-2"></i>改进建议
+						</h2>
+						<ul class="space-y-3">
+							<li class="flex">
+								<i class="fa fa-arrow-circle-right text-warning mt-1 mr-3"></i>
+								<span>可以加强TypeScript高级特性的学习和应用</span>
+							</li>
+							<li class="flex">
+								<i class="fa fa-arrow-circle-right text-warning mt-1 mr-3"></i>
+								<span>建议深入了解微前端架构和实践</span>
+							</li>
+							<li class="flex">
+								<i class="fa fa-arrow-circle-right text-warning mt-1 mr-3"></i>
+								<span>可以提高对后端技术的了解，增强全栈视野</span>
+							</li>
+							<li class="flex">
+								<i class="fa fa-arrow-circle-right text-warning mt-1 mr-3"></i>
+								<span>建议加强大型应用的状态管理复杂场景处理经验</span>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<!-- 面试记录与问答 -->
+				<section class="mb-12 animate-slide-up" style="animation-delay: 0.5s">
+					<div class="bg-white rounded-xl shadow-md p-6">
+						<h2 class="text-xl font-bold mb-6 flex items-center">
+							<i class="fa fa-comments text-secondary mr-2"></i>关键面试问答
+						</h2>
+						<div class="space-y-6">
+							<div class="border-l-4 border-primary pl-4 py-1">
+								<h3 class="font-semibold mb-2">
+									面试官问：请解释React中的虚拟DOM和Diffing算法？
+								</h3>
+								<p class="text-gray-700 mb-2">
+									面试者答：虚拟DOM是React中一个轻量级的DOM副本，它允许React在内存中操作DOM而不直接操作浏览器DOM，提高性能。Diffing算法是React用来比较新旧虚拟DOM树差异的算法，它通过分层比较、同层节点key比对等策略，找出最小变更集，从而最小化DOM操作。
+								</p>
+								<div class="flex items-center text-sm text-primary">
+									<i class="fa fa-check-circle mr-1"></i>
+									<span>回答准确，展现了对React核心原理的理解</span>
+								</div>
+							</div>
+							<div class="border-l-4 border-primary pl-4 py-1">
+								<h3 class="font-semibold mb-2">
+									面试官问：如何优化React应用的性能？
+								</h3>
+								<p class="text-gray-700 mb-2">
+									面试者答：主要有几个方向：1.
+									使用React.memo、useMemo和useCallback减少不必要的重渲染；2.
+									列表渲染时使用合适的key；3. 实现代码分割和懒加载；4.
+									优化大型列表渲染，如使用虚拟滚动；5.
+									合理设计组件结构，避免过深的组件层级。
+								</p>
+								<div class="flex items-center text-sm text-primary">
+									<i class="fa fa-check-circle mr-1"></i>
+									<span>回答全面，涵盖了主要优化策略，并有实际应用经验</span>
+								</div>
+							</div>
+							<div class="border-l-4 border-primary pl-4 py-1">
+								<h3 class="font-semibold mb-2">
+									面试官问：请描述一个你解决过的最具挑战性的前端问题？
+								</h3>
+								<p class="text-gray-700 mb-2">
+									面试者答：在之前的项目中，我们遇到了一个复杂表单的性能问题，包含大量动态字段和实时验证，导致输入时出现明显卡顿。我通过分析发现主要是频繁的重渲染导致的，解决方法是：1.
+									将表单拆分为更小的独立组件；2. 使用useMemo缓存计算结果；3.
+									实现防抖验证；4.
+									采用不可变数据结构减少引用变化。最终使表单操作流畅度提升了80%。
+								</p>
+								<div class="flex items-center text-sm text-primary">
+									<i class="fa fa-check-circle mr-1"></i>
+									<span
+										>问题描述清晰，解决方案合理，展现了良好的问题解决能力</span
+									>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<!-- 面试结论 -->
+				<section class="mb-12 animate-slide-up" style="animation-delay: 0.6s">
+					<div
+						class="bg-gradient-to-r from-primary/90 to-secondary/90 rounded-xl shadow-md p-6 text-white"
+					>
+						<h2 class="text-xl font-bold mb-4 flex items-center">
+							<i class="fa fa-flag-checkered mr-2"></i>面试结论
+						</h2>
+						<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+							<div class="col-span-2">
+								<p class="mb-4 leading-relaxed">
+									综合评估，张明同学完全符合前端开发工程师岗位要求，专业能力突出，沟通表达清晰，问题解决能力强，且有与岗位高度匹配的项目经验。建议进入下一阶段面试（技术复试），进一步考察其团队协作能力和实际编码能力。
+								</p>
+								<p class="leading-relaxed">
+									若复试表现良好，建议给予录用意向。预计薪资范围可参考市场行情，建议在18-22K/月区间。
+								</p>
+							</div>
+							<div
+								class="flex flex-col justify-center items-center bg-white/10 rounded-lg p-4"
+							>
+								<h3 class="font-semibold text-lg mb-3">下一步安排</h3>
+								<div class="text-center">
+									<p class="mb-2">技术复试</p>
+									<p class="text-sm opacity-90 mb-4">预计时间: 2025年7月22日</p>
+									<button
+										class="bg-white text-primary font-medium px-4 py-2 rounded-lg hover:bg-opacity-90 transition-colors"
+									>
+										安排复试
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<!-- 报告底部 -->
+				<footer
+					class="text-center text-neutral text-sm animate-slide-up"
+					style="animation-delay: 0.7s"
+				>
+					<p>本报告由面试评估系统生成 | 评估人: 李技术 | 生成时间: 2025-07-18 16:30</p>
+					<p class="mt-2">© 2025 面试管理平台 版权所有</p>
+				</footer>
+			</div>
+		</div>
+	</div>
+</template>
+
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import Chart from 'chart.js/auto';
+import html2pdf from 'html2pdf.js';
+
+const overallScoreChart = ref<HTMLCanvasElement | null>(null);
+const skillsRadarChart = ref<HTMLCanvasElement | null>(null);
+const reportContent = ref<HTMLElement | null>(null);
+
+onMounted(() => {
+	// 总体评分圆环图
+	if (overallScoreChart.value) {
+		new Chart(overallScoreChart.value.getContext('2d')!, {
+			type: 'doughnut',
+			data: {
+				datasets: [
+					{
+						data: [82, 18],
+						backgroundColor: ['#2563eb', '#e2e8f0'],
+						borderWidth: 0
+					}
+				]
+			},
+			options: {
+				cutout: '80%',
+				responsive: true,
+				maintainAspectRatio: true,
+				plugins: {
+					legend: { display: false },
+					tooltip: { enabled: false }
+				},
+				animation: {
+					animateRotate: true,
+					animateScale: true,
+					duration: 1500,
+					easing: 'easeOutQuart'
+				}
+			}
+		});
+	}
+	// 能力雷达图
+	if (skillsRadarChart.value) {
+		new Chart(skillsRadarChart.value.getContext('2d')!, {
+			type: 'radar',
+			data: {
+				labels: ['专业技能', '项目经验', '沟通能力', '问题解决', '学习能力', '职业素养'],
+				datasets: [
+					{
+						label: '面试者表现',
+						data: [85, 88, 79, 84, 81, 83],
+						backgroundColor: 'rgba(37, 99, 235, 0.2)',
+						borderColor: 'rgba(37, 99, 235, 0.8)',
+						pointBackgroundColor: '#2563eb',
+						pointBorderColor: '#fff',
+						pointHoverBackgroundColor: '#fff',
+						pointHoverBorderColor: '#2563eb'
+					},
+					{
+						label: '岗位平均要求',
+						data: [75, 70, 75, 70, 75, 70],
+						backgroundColor: 'rgba(245, 158, 11, 0.1)',
+						borderColor: 'rgba(245, 158, 11, 0.6)',
+						pointBackgroundColor: '#f59e0b',
+						pointBorderColor: '#fff',
+						pointHoverBackgroundColor: '#fff',
+						pointHoverBorderColor: '#f59e0b',
+						borderDash: [5, 5]
+					}
+				]
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				scales: {
+					r: {
+						angleLines: { display: true, color: 'rgba(0, 0, 0, 0.1)' },
+						suggestedMin: 50,
+						suggestedMax: 100,
+						ticks: { stepSize: 10, backdropColor: 'transparent' }
+					}
+				},
+				plugins: {
+					legend: {
+						position: 'top',
+						labels: { boxWidth: 12, usePointStyle: true, pointStyle: 'circle' }
+					}
+				},
+				animation: { duration: 2000, easing: 'easeOutQuart' }
+			}
+		});
+	}
+});
+
+function exportPDF() {
+	if (!reportContent.value) {
+		alert('未找到报告内容');
+		return;
+	}
+	const opt = {
+		margin: 0.5,
+		filename: '面试报告.pdf',
+		image: { type: 'jpeg', quality: 0.98 },
+		html2canvas: { scale: 2, useCORS: true },
+		jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+	};
+	html2pdf().set(opt).from(reportContent.value).save();
+}
+</script>
+
+<style scoped>
+.card-shadow {
+	box-shadow:
+		0 10px 15px -3px rgba(0, 0, 0, 0.05),
+		0 4px 6px -2px rgba(0, 0, 0, 0.03);
+}
+.progress-ring {
+	transform: rotate(-90deg);
+	transform-origin: 50% 50%;
+}
+.animate-fade-in {
+	animation: fadeIn 0.6s ease-in-out;
+}
+.animate-slide-up {
+	animation: slideUp 0.5s ease-out;
+}
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+@keyframes slideUp {
+	from {
+		transform: translateY(20px);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+@media print {
+	.no-break-inside {
+		page-break-inside: avoid !important;
+		break-inside: avoid !important;
+	}
+}
+</style>

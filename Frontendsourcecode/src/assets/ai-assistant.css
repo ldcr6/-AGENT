@@ -1,0 +1,8 @@
+/* 移除头像旋转动画相关样式 */
+.avatar,
+.ai-avatar,
+.user-avatar {
+  /* 移除旋转动画和transform */
+  animation: none !important;
+  transform: none !important;
+} 
